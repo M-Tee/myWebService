@@ -1,10 +1,18 @@
 const express = require('express');
 
 const app = express();
+const bookRouter = express.Router();
 const port = process.env.PORT || 3000;
 
+bookRouter.route('/books') 
+  .get((req, res) => {
+    const response = { hello: "this is my API"};
+    res.json(response);
+  });
+app.use('/api', bookRouter);
+
 app.get('/', (req, res) => {
-  res.send('Welcoome to my api');
+  res.send('Welcoome to my Nodemon API');
 });
 
 app.listen(port, () => {
