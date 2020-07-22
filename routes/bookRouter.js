@@ -23,15 +23,22 @@ function routes(Book) {
       });
     });
 
+  bookRouter.use('/books/:bookId', (req, res, next) => {
+    Book.findById(req.params.bookId, (err, book) => {
+      if (err) {
+        return res.send(err);
+      }
+      if (Book) {
+        req.book = book;
+        return next();
+      }
+      return res.status(404);
+    });
+  });
+
   bookRouter.route('/books/:bookId')
-    .get((req, res) => {
-      Book.findById(req.params.bookId, (err, book) => {
-        if (err) {
-          return res.send(err);
-        }
-        return res.json(book);
-      });
-    })
+    .get((req, res) => res.json(book))
+
     .put((req, res) => {
       Book.findById(req.params.bookId, (err, book) => {
         if (err) {
