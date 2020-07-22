@@ -28,29 +28,24 @@ function routes(Book) {
       if (err) {
         return res.send(err);
       }
-      if (Book) {
+      if (book) {
         req.book = book;
         return next();
       }
-      return res.status(404);
+      return res.sendStatus(404);
     });
   });
 
   bookRouter.route('/books/:bookId')
-    .get((req, res) => res.json(book))
-
+    .get((req, res) => res.json(req.book))
     .put((req, res) => {
-      Book.findById(req.params.bookId, (err, book) => {
-        if (err) {
-          return res.send(err);
-        }
-        book.title = req.body.title;
-        book.author = req.body.title;
-        book.genre = req.body.genre;
-        book.read = req.body.read;
-        book.save();
-        return res.json(book);
-      });
+      const { book } = req; //pulling book out of the request.
+      book.title = req.body.title;
+      book.author = req.body.title;
+      book.genre = req.body.genre;
+      book.read = req.body.read;
+      book.save();
+      return res.json(book);
     });
 
   return bookRouter;
