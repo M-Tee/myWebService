@@ -55,6 +55,7 @@ function routes(Book) {
     .patch((req, res) => {
       const { book } = req;
 
+      //Code to prevent us from updatin the id
       if (req.body._id) {
         delete req.body._id;
       }
